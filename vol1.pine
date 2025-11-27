@@ -17,8 +17,8 @@ macd = fast_ma - slow_ma
 signal = sma_signal == "SMA" ? ta.sma(macd, signal_length) : ta.ema(macd, signal_length)
 hist = macd - signal
 
-fixed_range = input.bool(false, "Use Stochastic fixed range", "If the indicator is not visible, you should disable it. Then, using dynamic range based on MACD highest value.")
-fixed_range_value = input.int(1, "Stochastic fixed range value", minval=1, tooltip="Increase the value when Stochastic is not visible.")
+fixed_range = input.bool(false, "Use Stochastic fixed range", "If bounds should be fixed (static), then you should enable it. Or if the indicator is not visible, you should disable it or change the fixed range value. When disabling then, uses dynamic range based on MACD highest value.")
+fixed_range_value = input.float(1, "Stochastic fixed range value", minval=0, tooltip="Increase the value when Stochastic is not visible. Decrease the value when MACD is not visible. Minimum value is 0.")
 show_bounds = input.bool(true, "Show Stochastic Bounds", "Limit Line")
 
 alertcondition(hist[1] >= 0 and hist < 0, title = 'Rising to falling', message = 'The MACD histogram switched from a rising to falling state')
@@ -32,12 +32,12 @@ h1b = hline(fixed_range and show_bounds ? fixed_range_value * -1 : na, "Lower Li
 fill(h0, h1, color=color.rgb(33, 150, 243, 90), title="Background")
 
 //Dynamic Range
-max_range_raw = ta.highest(macd, 300)
-max_range = max_range_raw < 1 ? 1 : max_range_raw
-h00 = plot(fixed_range ? na : 0.6 * max_range, title="Upper Band (Dynamic)", style=plot.style_circles, color=#787B86)
-h11 = plot(fixed_range ? na : -0.6 * max_range, title="Lower Band (Dynamic)", style=plot.style_circles, color=#787B86)
-h000 = plot(fixed_range or not show_bounds ? na : max_range, title="Upper Limit (Dynamic)", style=plot.style_circles, color=color.red)
-h111 = plot(fixed_range or not show_bounds ? na : max_range * -1, title="Lower Limit (Dynamic)", style=plot.style_circles, color=color.red)
+max_range_raw = ta.highest(macd, 500)
+max_range = max_range_raw < 0.1 ? 0.1 : max_range_raw
+h00 = plot(fixed_range ? na : 0.6 * max_range, title="Upper Band (Dynamic)", color=color.new(#787B86, 64))
+h11 = plot(fixed_range ? na : -0.6 * max_range, title="Lower Band (Dynamic)", color=color.new(#787B86, 64))
+h000 = plot(fixed_range or not show_bounds ? na : max_range, title="Upper Limit (Dynamic)", color=color.new(color.red, 64))
+h111 = plot(fixed_range or not show_bounds ? na : max_range * -1, title="Lower Limit (Dynamic)", color=color.new(color.red, 64))
 fill(h00, h11, color=color.rgb(33, 150, 243, 90), title="Background")
 
 hline(0, "Zero Line", color = color.new(#787B86, 50))
