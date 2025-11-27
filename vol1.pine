@@ -24,7 +24,7 @@ plot(hist, title = "Histogram", style = plot.style_columns, color = (hist >= 0 ?
 plot(macd,   title = "MACD",   color = #AF23E7, linewidth=2)
 plot(signal, title = "Signal", color = #54596A, linewidth=2)
 
-periodK = input.int(5, title="%K Length", minval=1)
+periodK = input.int(14, title="%K Length", minval=1)
 smoothK = input.int(3, title="%K Smoothing", minval=1)
 periodD = input.int(3, title="%D Smoothing", minval=1)
 k = ta.sma(ta.stoch(close, high, low, periodK), smoothK)
