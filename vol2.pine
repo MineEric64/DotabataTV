@@ -1,0 +1,35 @@
+//@version=6
+indicator(title="DOTABATA! Collection Vol.2", shorttitle="DOTABATA!!")
+//Heikin Ashi + Quad EMA
+
+ha_open = request.security(ticker.heikinashi(syminfo.tickerid), timeframe.period, open)
+ha_high = request.security(ticker.heikinashi(syminfo.tickerid), timeframe.period, high)
+ha_low = request.security(ticker.heikinashi(syminfo.tickerid), timeframe.period, low)
+ha_close = request.security(ticker.heikinashi(syminfo.tickerid), timeframe.period, close)
+plotcandle(ha_open < ha_close ? ha_open : na, ha_high, ha_low, ha_close, title='Green Candles', color=#53b987, wickcolor=#53b987, bordercolor=#53b987)
+plotcandle(ha_open >= ha_close ? ha_open : na, ha_high, ha_low, ha_close, title='Red Candles', color=#eb4d5c, wickcolor=#eb4d5c, bordercolor=#eb4d5c)
+
+// Checkbox's for the other 3 MA's
+a = input.bool(true, title="Enable 2nd MA")
+b = input.bool(true, title="Enable 3rd MA")
+c = input.bool(false, title="Enable 4th MA")
+
+len = input.int(20, minval=1, title="Length")
+len2 = input.int(50, minval=1, title="Length2")
+len3 = input.int(100, minval=1, title="Length3")
+len4 = input.int(200, minval=1, title="Length4")
+
+src = input(close, title="Source")
+src2 = input(close, title="Source2")
+src3 = input(close, title="Source3")
+src4 = input(close, title="Source4")
+
+out = ta.ema(src, len)
+out2 = ta.ema(src2, len2)
+out3 = ta.ema(src3, len3)
+out4 = ta.ema(src4, len4)
+
+plot(out, title="EMA", color=#029359)
+plot(a ? out2: na, title="EMA2", color=#FFC342)
+plot(b ? out3: na, title="EMA3", color=#D22030)
+plot(c ? out4: na, title="EMA4", color=#AF23E7)
