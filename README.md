@@ -32,12 +32,20 @@ MACD is normal, so you can read as usual.
 But, Stochastic is a little bit different. The range is changed to:
 
 - Original Range: 0 ~ 100
-- Changed Range (in graph): -1.0 ~ 1.0
+- Changed Range (in graph): Dynamic, MACD based
 
 You can read it like:
-- Upper Band (80%, Overbought): 0.6
+- Upper Band (80%, Overbought): Above Gray Line
 - Middle Band (50%): 0
-- Lower Band (20%, Oversold): -0.6
+- Lower Band (20%, Oversold): Below Gray Line
+
+The red Line is Upper/Lower Bounds Line (Limit).
+
+ > [!WARNING]
+ > **Stochastic range can be changed dynamically!** If you don't want, Please disable 'Use Stochastic Fixed Range'.
+>
+When disabling, you need to change 'Stochastic Fixed Range Value' based on MACD indicator.
+The default value is 1, which stochastic range is -1.0 ~ 1.0.
 
 Also the color of 'Vol. 1' plots mean:
 - Thick Magenta line: MACD (MACD)
